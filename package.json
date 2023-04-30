@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "preinstall": "pnpm -F api build",
     "dev": "concurrently \"pnpm -F frontend dev\" \"pnpm -F backend dev\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
