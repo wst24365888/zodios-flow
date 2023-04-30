@@ -4,6 +4,13 @@ import { v4 as uuidv4 } from "uuid";
 
 const app = zodiosApp(endpoints);
 
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PATCH, DELETE");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
+    next();
+});
+
 // TODO: use database instead of in-memory data
 const todos: TodoItem[] = [
     { id: "b5f713b0-6247-496d-9b02-3e1faf3ebbd3", title: "Todo 1", completed: false },
@@ -45,7 +52,7 @@ app.patch("/todos/:id", (req, res) => {
             message: "Todo item not found"
         });
     }
-    todo.title = req.body.title;
+    todo.completed = req.body.completed;
     return res.json(todo);
 });
 
@@ -58,7 +65,7 @@ app.delete("/todos/:id", (req, res) => {
         });
     }
     todos.splice(index, 1);
-    return res.json();
+    return res.end();
 });
 
 app.listen(3000, () => {

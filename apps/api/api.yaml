@@ -141,12 +141,11 @@ components:
     UpdateTodoItemPayload:
       type: object
       properties:
-        title:
-          type: string
-          description: The new title of the todo item
-          minLength: 5
+        completed:
+          type: boolean
+          description: Whether the todo item is completed or not
       required:
-        - title
+        - completed
           
     TodoError:
       type: object

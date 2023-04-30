@@ -2,8 +2,6 @@
 import { computed, ref } from "vue";
 import { TodoItem } from "api";
 import { api } from "../api";
-import { ZodiosError } from "@zodios/core";
-import { ZodError } from "zod";
 
 const newTodoTitle = ref("");
 const todos = ref<TodoItem[]>([]);
@@ -14,9 +12,7 @@ api
 		todos.value = data;
 	})
 	.catch((err) => {
-		if (err instanceof ZodiosError && err.cause instanceof ZodError) {
-			console.log(err.cause.issues);
-		}
+		console.log(err);
 	});
 
 function addTodo() {
@@ -32,9 +28,7 @@ function addTodo() {
 			todos.value.unshift(data);
 		})
 		.catch((err) => {
-			if (err instanceof ZodiosError && err.cause instanceof ZodError) {
-				console.log(err.cause.issues);
-			}
+			console.log(err);
 		})
 		.finally(() => {
 			newTodoTitle.value = "";
@@ -52,9 +46,7 @@ function removeTodo(todo: TodoItem) {
 			},
 		})
 		.catch((err) => {
-			if (err instanceof ZodiosError && err.cause instanceof ZodError) {
-				console.log(err.cause.issues);
-			}
+			console.log(err);
 
 			// rollback
 			todos.value.splice(index, 0, todo);
@@ -75,9 +67,7 @@ function toggleTodoCompleted(todo: TodoItem) {
 			},
 		)
 		.catch((err) => {
-			if (err instanceof ZodiosError && err.cause instanceof ZodError) {
-				console.log(err.cause.issues);
-			}
+			console.log(err);
 
 			// rollback
 			todo.completed = !todo.completed;
@@ -91,7 +81,7 @@ const activeTodoCount = computed(() => {
 
 <template>
 	<div class="bg-gray-100 min-h-screen flex justify-center items-center overflow-x-hidden">
-		<div class="mx-auto max-w-2xl bg-white p-8 my-8 rounded-xl">
+		<div class="mx-auto w-[42rem] bg-white p-8 my-8 rounded-xl">
 			<h1 class="mb-8 text-4xl font-bold">Todo App</h1>
 			<form class="mb-8" @submit.prevent="addTodo">
 				<input
@@ -100,7 +90,7 @@ const activeTodoCount = computed(() => {
 					placeholder="What needs to be done?"
 				/>
 			</form>
-			<ul>
+			<ul class="mb-8">
 				<li
 					v-for="todo in todos"
 					:key="todo.id"
