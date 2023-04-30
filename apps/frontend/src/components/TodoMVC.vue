@@ -1,30 +1,30 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { v4 as uuidv4 } from "uuid";
-import { Todo } from "./types/Todo";
+import { TodoItem } from "api/gen";
 
-const newTodoText = ref("");
-const todos = ref<Todo[]>([]);
+const newTodoTitle = ref("");
+const todos = ref<TodoItem[]>([]);
 
 function addTodo() {
-	if (!newTodoText.value.trim()) {
+	if (!newTodoTitle.value.trim()) {
 		return;
 	}
 
 	todos.value.push({
 		id: uuidv4(),
-		text: newTodoText.value.trim(),
+		title: newTodoTitle.value.trim(),
 		completed: false,
 	});
-	newTodoText.value = "";
+	newTodoTitle.value = "";
 }
 
-function removeTodo(todo: Todo) {
+function removeTodo(todo: TodoItem) {
 	const index = todos.value.indexOf(todo);
 	todos.value.splice(index, 1);
 }
 
-function toggleTodoCompleted(todo: Todo) {
+function toggleTodoCompleted(todo: TodoItem) {
 	todo.completed = !todo.completed;
 }
 
@@ -48,7 +48,7 @@ const completedTodoCount = getCompletedTodoCount();
 		<h1 class="mb-8 text-4xl font-bold">TodoMVC</h1>
 		<form class="mb-8" @submit.prevent="addTodo">
 			<input
-				v-model.trim="newTodoText"
+				v-model.trim="newTodoTitle"
 				class="w-full rounded-md border-gray-300 p-2 shadow-sm"
 				placeholder="What needs to be done?"
 			/>
@@ -66,7 +66,7 @@ const completedTodoCount = getCompletedTodoCount();
 						class="mr-2"
 						@change="toggleTodoCompleted(todo)"
 					/>
-					<span :class="{ 'line-through': todo.completed }">{{ todo.text }}</span>
+					<span :class="{ 'line-through': todo.completed }">{{ todo.title }}</span>
 				</div>
 				<button class="text-gray-400 hover:text-gray-600" @click="removeTodo(todo)">
 					<svg

@@ -12,7 +12,8 @@
 	},
 	"dependencies": {
 		"uuid": "^9.0.0",
-		"vue": "^3.2.47"
+		"vue": "^3.2.47",
+		"api": "workspace:^1.0.0"
 	},
 	"devDependencies": {
 		"@types/uuid": "^9.0.1",
