@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import TodoMVC from "./components/TodoMVC.vue";
+import TodoApp from "./components/TodoApp.vue";
 </script>
 
 <template>
-	<TodoMVC msg="Vite + Vue" />
+	<TodoApp />
 </template>

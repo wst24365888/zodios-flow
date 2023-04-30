@@ -6,25 +6,22 @@ const TodoItem = z.object({
   title: z.string(),
   completed: z.boolean(),
 });
-const NewTodoItem = z.object({
-  title: z.string(),
-  completed: z.boolean().optional(),
-});
+const TodoItemPayload = z.object({ title: z.string() });
 const TodoError = z.object({ code: z.number().int(), message: z.string() });
-const UpdateTodoItem = z
+const UpdateTodoItemPayload = z
   .object({ title: z.string(), completed: z.boolean() })
   .partial();
 
 export type TodoItem = z.infer<typeof TodoItem>;
-export type NewTodoItem = z.infer<typeof NewTodoItem>;
+export type TodoItemPayload = z.infer<typeof TodoItemPayload>;
 export type TodoError = z.infer<typeof TodoError>;
-export type UpdateTodoItem = z.infer<typeof UpdateTodoItem>;
+export type UpdateTodoItemPayload = z.infer<typeof UpdateTodoItemPayload>;
 
 export const schemas = {
   TodoItem,
-  NewTodoItem,
+  TodoItemPayload,
   TodoError,
-  UpdateTodoItem,
+  UpdateTodoItemPayload,
 };
 
 const endpoints = makeApi([
@@ -44,7 +41,7 @@ const endpoints = makeApi([
       {
         name: "body",
         type: "Body",
-        schema: NewTodoItem,
+        schema: z.object({ title: z.string() }),
       },
     ],
     response: TodoItem,
@@ -78,7 +75,7 @@ const endpoints = makeApi([
     ],
   },
   {
-    method: "put",
+    method: "patch",
     path: "/todos/:id",
     alias: "updateTodoById",
     requestFormat: "json",
@@ -86,7 +83,7 @@ const endpoints = makeApi([
       {
         name: "body",
         type: "Body",
-        schema: UpdateTodoItem,
+        schema: UpdateTodoItemPayload,
       },
       {
         name: "id",
