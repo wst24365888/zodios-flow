@@ -2,7 +2,7 @@ import { makeApi, Zodios, type ZodiosOptions } from "@zodios/core";
 import { z } from "zod";
 
 const TodoItem = z.object({
-  id: z.string(),
+  id: z.string().uuid(),
   title: z.string(),
   completed: z.boolean(),
 });
@@ -65,7 +65,7 @@ const endpoints = makeApi([
       {
         name: "id",
         type: "Path",
-        schema: z.string(),
+        schema: z.string().uuid(),
       },
     ],
     response: TodoItem,
@@ -91,7 +91,7 @@ const endpoints = makeApi([
       {
         name: "id",
         type: "Path",
-        schema: z.string(),
+        schema: z.string().uuid(),
       },
     ],
     response: TodoItem,
@@ -117,7 +117,7 @@ const endpoints = makeApi([
       {
         name: "id",
         type: "Path",
-        schema: z.string(),
+        schema: z.string().uuid(),
       },
     ],
     response: z.void(),

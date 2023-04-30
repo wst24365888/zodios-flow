@@ -49,6 +49,7 @@ paths:
         required: true
         schema:
           type: string
+          format: uuid
     get:
       summary: Get a todo item by ID
       operationId: getTodoById
@@ -113,6 +114,7 @@ components:
       properties:
         id:
           type: string
+          format: uuid
           description: The unique identifier for the todo item
         title:
           type: string
