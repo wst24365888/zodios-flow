@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "pnpm -F frontend dev",
+    "dev": "concurrently \"pnpm -F frontend dev\" \"pnpm -F backend dev\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -14,5 +14,9 @@
     "@zodios/core": "^10.9.0",
     "axios": "^1.4.0",
     "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1",
+    "typescript": "^5.0.4"
   }
 }

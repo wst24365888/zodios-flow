@@ -8,9 +8,7 @@ const TodoItem = z.object({
 });
 const TodoItemPayload = z.object({ title: z.string().min(5) });
 const TodoError = z.object({ code: z.number().int(), message: z.string() });
-const UpdateTodoItemPayload = z
-  .object({ title: z.string().min(5), completed: z.boolean() })
-  .partial();
+const UpdateTodoItemPayload = z.object({ title: z.string().min(5) });
 
 export type TodoItem = z.infer<typeof TodoItem>;
 export type TodoItemPayload = z.infer<typeof TodoItemPayload>;
@@ -24,7 +22,7 @@ export const schemas = {
   UpdateTodoItemPayload,
 };
 
-const endpoints = makeApi([
+export const endpoints = makeApi([
   {
     method: "get",
     path: "/todos",
@@ -83,7 +81,7 @@ const endpoints = makeApi([
       {
         name: "body",
         type: "Body",
-        schema: UpdateTodoItemPayload,
+        schema: z.object({ title: z.string().min(5) }),
       },
       {
         name: "id",

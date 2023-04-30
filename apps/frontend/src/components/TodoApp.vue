@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { TodoItem } from "api/gen";
+import { TodoItem } from "api";
 import { api } from "../api";
 import { ZodiosError } from "@zodios/core";
 import { ZodError } from "zod";
