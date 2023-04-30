@@ -3,13 +3,13 @@ import { z } from "zod";
 
 const TodoItem = z.object({
   id: z.string().uuid(),
-  title: z.string(),
+  title: z.string().min(5),
   completed: z.boolean(),
 });
-const TodoItemPayload = z.object({ title: z.string() });
+const TodoItemPayload = z.object({ title: z.string().min(5) });
 const TodoError = z.object({ code: z.number().int(), message: z.string() });
 const UpdateTodoItemPayload = z
-  .object({ title: z.string(), completed: z.boolean() })
+  .object({ title: z.string().min(5), completed: z.boolean() })
   .partial();
 
 export type TodoItem = z.infer<typeof TodoItem>;
@@ -41,7 +41,7 @@ const endpoints = makeApi([
       {
         name: "body",
         type: "Body",
-        schema: z.object({ title: z.string() }),
+        schema: z.object({ title: z.string().min(5) }),
       },
     ],
     response: TodoItem,
