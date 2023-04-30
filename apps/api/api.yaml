@@ -1,0 +1,161 @@
+openapi: 3.0.0
+info:
+  title: TodoMVC API
+  description: A simple API for managing todo items
+  version: 1.0.0
+
+paths:
+  /todos:
+    get:
+      summary: Get all todo items
+      operationId: getAllTodos
+      responses:
+        '200':
+          description: A list of todo items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TodoItem'
+    post:
+      summary: Create a new todo item
+      operationId: createTodo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewTodoItem'
+      responses:
+        '201':
+          description: The newly created todo item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoItem'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoError'
+
+  /todos/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: ID of the todo item to retrieve
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Get a todo item by ID
+      operationId: getTodoById
+      responses:
+        '200':
+          description: The requested todo item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoItem'
+        '404':
+          description: Todo item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoError'
+    put:
+      summary: Update a todo item by ID
+      operationId: updateTodoById
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTodoItem'
+      responses:
+        '200':
+          description: The updated todo item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoItem'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoError'
+        '404':
+          description: Todo item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoError'
+    delete:
+      summary: Delete a todo item by ID
+      operationId: deleteTodoById
+      responses:
+        '204':
+          description: Todo item successfully deleted
+        '404':
+          description: Todo item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoError'
+
+components:
+  schemas:
+    TodoItem:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the todo item
+        title:
+          type: string
+          description: The title of the todo item
+        completed:
+          type: boolean
+          description: Whether the todo item is completed or not
+      required:
+        - id
+        - title
+        - completed
+
+    NewTodoItem:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the new todo item
+        completed:
+          type: boolean
+          description: Whether the new todo item is completed or not
+      required:
+        - title
+
+    UpdateTodoItem:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The updated title of the todo item
+        completed:
+          type: boolean
+          description: Whether the updated todo item is completed or not
+          
+    TodoError:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: A code that represents the type of TodoError
+        message:
+          type: string
+          description: A human-readable TodoError message
+      required:
+        - code
+        - message
